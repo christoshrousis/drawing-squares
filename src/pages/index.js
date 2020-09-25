@@ -10,33 +10,38 @@ import SEO from "../components/seo"
 // Original Reference:
 // Simple line draw example: http://jsfiddle.net/j3xDg/
 // https://codetheory.in/html5-canvas-drawing-lines-with-smooth-edges/
+// https://roughjs.com/
+// Excalidraw
+// https://github.com/pshihn/rough/wiki/Examples
+// wiredjs components.
+
 const seed = 123456
 
 const Result = ({ rectangles }) => {
-  // if (
-  //   rectangles.length == 0 ||
-  //   isNaN(rectangles[0].x) ||
-  //   isNaN(rectangles[0].y) ||
-  //   isNaN(rectangles[0].width) ||
-  //   isNaN(rectangles[0].height)
-  // )
-  //   return null
-
-  console.log(rectangles)
   return (
-    <ReactRough width={500} height={500}>
-      {rectangles.map(rectangle => (
-        <Rectangle
-          key={rectangle.key}
-          x={rectangle.x}
-          y={rectangle.y}
-          seed={seed}
-          height={rectangle.height}
-          fill="red"
-          width={rectangle.width}
-        />
-      ))}
-    </ReactRough>
+    <div
+      style={{
+        height: "500px",
+        outline: "2px solid blue",
+        position: "absolute",
+        width: "500px",
+        zIndex: 1,
+      }}
+    >
+      <ReactRough width={500} height={500}>
+        {rectangles.map(rectangle => (
+          <Rectangle
+            key={rectangle.key}
+            x={rectangle.x}
+            y={rectangle.y}
+            seed={seed}
+            height={rectangle.height}
+            fill="red"
+            width={rectangle.width}
+          />
+        ))}
+      </ReactRough>
+    </div>
   )
 }
 
@@ -50,6 +55,7 @@ const DrawArea = ({ rectangles, updateRectangles }) => {
 
   const [rectangleStart, setRectangleStart] = useState({ x: 0, y: 0 })
   const [rectangleEnd, setRectangleEnd] = useState({ x: 0, y: 0 })
+
   const updateMousePosition = (e, drawZone) => {
     setMouse({
       x: e.pageX - drawZone.offsetLeft,
@@ -146,7 +152,6 @@ const DrawArea = ({ rectangles, updateRectangles }) => {
     <>
       <div
         ref={drawZone}
-        className="drawZone"
         style={{
           display: "block",
           height: "500px",
@@ -188,6 +193,7 @@ const DrawArea = ({ rectangles, updateRectangles }) => {
     </>
   )
 }
+
 const IndexPage = () => {
   const [rectangles, setRectangles] = useState([
     { key: Math.random(), x: 15, y: 15, width: 30, height: 30 },
@@ -197,17 +203,7 @@ const IndexPage = () => {
     <Layout>
       <SEO title="Home" />
       <DrawArea rectangles={rectangles} updateRectangles={setRectangles} />
-      <div
-        style={{
-          height: "500px",
-          outline: "2px solid blue",
-          position: "absolute",
-          width: "500px",
-          zIndex: 1,
-        }}
-      >
-        <Result rectangles={rectangles} />
-      </div>
+      <Result rectangles={rectangles} />
     </Layout>
   )
 }
